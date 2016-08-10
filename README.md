@@ -1,7 +1,7 @@
 # NODE NUID
 
 [![License MIT](https://img.shields.io/npm/l/express.svg)](http://opensource.org/licenses/MIT)
-[![ReportCard](http://goreportcard.com/badge/nats-io/nuid)](http://goreportcard.com/report/nats-io/node-nuid) [![Build Status](https://travis-ci.org/nats-io/node-nuid.svg?branch=master)](http://travis-ci.org/nats-io/node-nuid) (http://godoc.org/github.com/nats-io/nuid) [![Coverage Status](https://coveralls.io/repos/github/nats-io/node-nuid/badge.svg?branch=master)](https://coveralls.io/github/nats-io/node-nuid?branch=master)
+[![ReportCard](http://goreportcard.com/badge/nats-io/node-nuid)](http://goreportcard.com/report/nats-io/node-nuid) [![Build Status](https://travis-ci.org/nats-io/node-nuid.svg?branch=master)](http://travis-ci.org/nats-io/node-nuid) (http://godoc.org/github.com/nats-io/nuid) [![Coverage Status](https://coveralls.io/repos/github/nats-io/node-nuid/badge.svg?branch=master)](https://coveralls.io/github/nats-io/node-nuid?branch=master)
 
 A highly performant unique identifier generator.
 
