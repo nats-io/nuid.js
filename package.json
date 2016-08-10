@@ -1,5 +1,5 @@
 {
-  "name": "nats",
+  "name": "nuid",
   "version": "0.6.6",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
