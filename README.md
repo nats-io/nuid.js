@@ -15,7 +15,7 @@ Use the `npm` command:
 ```javascript
 
 var NUID = require('nuid');
-var nuid = NUID.next()
+var nuid = NUID.next();
 
 
 // Generate a new crypto/rand seeded prefix.
