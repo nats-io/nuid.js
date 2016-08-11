@@ -1,6 +1,6 @@
 {
   "name": "nuid",
-  "version": "0.6.6",
+  "version": "0.6.8",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
     "unique",
