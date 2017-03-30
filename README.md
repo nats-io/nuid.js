@@ -35,7 +35,7 @@ Total length of a NUID string is 22 bytes of base 36 ascii text, so 36^22 or
 
 (The MIT License)
 
-Copyright (c) 2016 Apcera Inc.
+Copyright (c) 2016-2017 Apcera Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to
