@@ -61,11 +61,11 @@ describe('Basics', function() {
   });
 
   it('roll seq', function() {
-    var a = new Buffer(10);
-    nuid._global.buf.copy(a,12);
+    var a = Buffer.alloc(10);
+    nuid._global.buf.copy(a, 0, 12);
     nuid.next();
-    var b = new Buffer(10);
-    nuid._global.buf.copy(b,12);
+    var b = Buffer.alloc(10);
+    nuid._global.buf.copy(b, 0, 12);
     rangeEquals(a,b).should.be.equal(false);
   });
 
