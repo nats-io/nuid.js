@@ -34,6 +34,14 @@ sequential data that increments with a pseudo-random increment.
 Total length of a NUID string is 22 bytes of base 36 ascii text, so 36^22 or
 17324272922341479351919144385642496 possibilities.
 
+## Supported Node Versions    
+
+Support policy for Nodejs versions follows 
+[Nodejs release support]( https://github.com/nodejs/Release).
+We will support and build node-nats on even Nodejs versions that are current 
+or in maintenance.
+
+
 ## License
 
 Unless otherwise noted, the NATS source files are distributed under the Apache Version 2.0 license found in the LICENSE file.
