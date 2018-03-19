@@ -1,3 +1,18 @@
+/*
+ * Copyright 2016-2018 The NATS Authors
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* jshint node: true */
 
 /* global describe: false, before: false, after: false, it: false */
@@ -46,11 +61,11 @@ describe('Basics', function() {
   });
 
   it('roll seq', function() {
-    var a = new Buffer(10);
-    nuid._global.buf.copy(a,12);
+    var a = Buffer.alloc(10);
+    nuid._global.buf.copy(a, 0, 12);
     nuid.next();
-    var b = new Buffer(10);
-    nuid._global.buf.copy(b,12);
+    var b = Buffer.alloc(10);
+    nuid._global.buf.copy(b, 0, 12);
     rangeEquals(a,b).should.be.equal(false);
   });
 

@@ -1,6 +1,6 @@
 {
   "name": "nuid",
-  "version": "0.6.14",
+  "version": "0.6.16",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
     "unique",
@@ -15,11 +15,10 @@
   "bugs": {
     "url": "https://github.com/nats-io/node-nuid/issues"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": false,
   "author": {
-    "name": "Derek Collison",
-    "email": "derek@apcera.com"
+    "name": "The NATS Authors"
   },
   "contributors": [],
   "main": "./index.js",
