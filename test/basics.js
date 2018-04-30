@@ -74,8 +74,8 @@ describe('Basics', function() {
     var a = Buffer.alloc(12);
     nuid._global.buf.copy(a,0,0,12);
     nuid.next();
-    var b = Buffer.alloc(12,0,0,12);
-    nuid._global.buf.copy(b);
+    var b = Buffer.alloc(12);
+    nuid._global.buf.copy(b,0,0,12);
     rangeEquals(a,b).should.be.equal(false);
   });
 
