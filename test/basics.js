@@ -71,19 +71,19 @@ describe('Basics', function() {
 
   it('roll pre', function() {
     nuid._global.seq = 3656158440062976 + 1;
-    var a = new Buffer(12);
+    var a = Buffer.alloc(12);
     nuid._global.buf.copy(a,0,0,12);
     nuid.next();
-    var b = new Buffer(12,0,0,12);
-    nuid._global.buf.copy(b);
+    var b = Buffer.alloc(12);
+    nuid._global.buf.copy(b,0,0,12);
     rangeEquals(a,b).should.be.equal(false);
   });
 
   it('reset should reset', function() {
-    var a = new Buffer(22);
+    var a = Buffer.alloc(22);
     nuid._global.buf.copy(a);
     nuid.reset();
-    var b = new Buffer(12);
+    var b = Buffer.alloc(12);
     nuid._global.buf.copy(b);
 
     rangeEquals(a,b,0,12).should.be.equal(false);
