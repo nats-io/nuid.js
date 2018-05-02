@@ -1,6 +1,6 @@
 {
   "name": "nuid",
-  "version": "0.6.18",
+  "version": "1.0.0",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
     "unique",
@@ -32,7 +32,7 @@
     "cover": "istanbul cover _mocha"
   },
   "engines": {
-    "node": ">= 0.10.x"
+    "node": ">= 4.5.0"
   },
   "dependencies": {},
   "devDependencies": {
