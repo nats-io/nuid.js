@@ -13,80 +13,79 @@
  * limitations under the License.
  */
 
-/* jshint node: true */
 
-/* global describe: false, before: false, after: false, it: false */
+/* global require: false, describe: false, it: false */
+
 'use strict';
 
-var nuid = require('../lib/nuid.js');
-var should = require('should');
+const nuid = require('../lib/nuid.js');
+const should = require('should');
 
 function rangeEquals(ba, bb, start, end) {
-  var equal = true;
-  if(start === undefined) {
-    start = 0;
-  }
-  if(end === undefined) {
-    end = ba.length;
-  }
-  for(var i=start; i < end; i++) {
-    if(ba[i] !== bb[i]) {
-      equal = false;
-      break;
+    var equal = true;
+    if (start === undefined) {
+        start = 0;
     }
-  }
-  return equal;
+    if (end === undefined) {
+        end = ba.length;
+    }
+    for (let i = start; i < end; i++) {
+        if (ba[i] !== bb[i]) {
+            equal = false;
+            break;
+        }
+    }
+    return equal;
 }
 
 describe('Basics', function() {
-  it('global nuid should not be null', function() {
-    var global = nuid._global;
-    should.exist(global);
-    should.exist(global.buf);
-    global.buf.length.should.be.greaterThan(0);
-    should.exist(global.seq);
-    global.seq.should.be.greaterThan(0);
-    should.exist(global.inc);
-  });
+    it('global nuid should not be null', function() {
+        var global = nuid.getGlobalNuid();
+        should.exist(global);
+        should.exist(global.buf);
+        global.buf.length.should.be.greaterThan(0);
+        should.exist(global.seq);
+        global.seq.should.be.greaterThan(0);
+        should.exist(global.inc);
+    });
 
-  it('duplicate nuids', function() {
-    this.timeout(1000*60);
-    var m = {};
-    // make this really big when testing, for normal runs small
-    for(var i=0; i < 10000; i++) {
-      var k = nuid.next();
-      should.not.exist(m[k]);
-      m[k] = true;
-    }
-  });
+    it('duplicate nuids', function() {
+        var m = {};
+        // make this really big when testing, for normal runs small
+        for (var i = 0; i < 10000; i++) {
+            var k = nuid.next();
+            should.not.exist(m[k]);
+            m[k] = true;
+        }
+    }).timeout(1000*60);
 
-  it('roll seq', function() {
-    var a = Buffer.alloc(10);
-    nuid._global.buf.copy(a, 0, 12);
-    nuid.next();
-    var b = Buffer.alloc(10);
-    nuid._global.buf.copy(b, 0, 12);
-    rangeEquals(a,b).should.be.equal(false);
-  });
+    it('roll seq', function() {
+        const a = Buffer.alloc(10);
+        nuid.getGlobalNuid().buf.copy(a, 0, 12);
+        nuid.next();
+        const b = Buffer.alloc(10);
+        nuid.getGlobalNuid().buf.copy(b, 0, 12);
+        rangeEquals(a, b).should.be.equal(false);
+    });
 
-  it('roll pre', function() {
-    nuid._global.seq = 3656158440062976 + 1;
-    var a = Buffer.alloc(12);
-    nuid._global.buf.copy(a,0,0,12);
-    nuid.next();
-    var b = Buffer.alloc(12);
-    nuid._global.buf.copy(b,0,0,12);
-    rangeEquals(a,b).should.be.equal(false);
-  });
+    it('roll pre', function() {
+        nuid.getGlobalNuid().seq = 3656158440062976 + 1;
+        const a = Buffer.alloc(12);
+        nuid.getGlobalNuid().buf.copy(a, 0, 0, 12);
+        nuid.next();
+        const b = Buffer.alloc(12);
+        nuid.getGlobalNuid().buf.copy(b, 0, 0, 12);
+        rangeEquals(a, b).should.be.equal(false);
+    });
 
-  it('reset should reset', function() {
-    var a = Buffer.alloc(22);
-    nuid._global.buf.copy(a);
-    nuid.reset();
-    var b = Buffer.alloc(12);
-    nuid._global.buf.copy(b);
+    it('reset should reset', function() {
+        const a = Buffer.alloc(22);
+        nuid.getGlobalNuid().buf.copy(a);
+        nuid.reset();
+        const b = Buffer.alloc(12);
+        nuid.getGlobalNuid().buf.copy(b);
 
-    rangeEquals(a,b,0,12).should.be.equal(false);
-    rangeEquals(a,b,12).should.be.equal(false);
-  });
+        rangeEquals(a, b, 0, 12).should.be.equal(false);
+        rangeEquals(a, b, 12).should.be.equal(false);
+    });
 });

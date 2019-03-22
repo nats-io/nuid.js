@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-/*jslint node: true */
+
+/* global require: false */
+/*eslint no-console:0 */
 
 'use strict';
 
-var NUID = require('../');
+const NUID = require('../');
 
 // print the version
 console.log(NUID.version);

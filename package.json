@@ -1,6 +1,6 @@
 {
   "name": "nuid",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
     "unique",
@@ -23,27 +23,34 @@
   "contributors": [],
   "main": "./index.js",
   "scripts": {
-    "lint": "jshint --reporter node_modules/jshint-stylish lib/*.js test/*.js test/support/*.js examples/*.js",
     "depcheck": "dependency-check . lib/*",
     "depcheck:unused": "dependency-check ./package.json --unused --no-dev lib/*",
     "test:unit": "mkdir -p reports/ && NODE_ENV=test multi='spec=- xunit=reports/mocha-xunit.xml' istanbul cover _mocha -- -R mocha-multi --timeout 10000 --slow 750 && istanbul check-coverage",
     "test": "npm run depcheck && npm run depcheck:unused && npm run lint && npm run test:unit",
     "coveralls": "npm run cover -- --report lcovonly && cat ./reports/coverage/lcov.info | coveralls",
-    "cover": "istanbul cover _mocha"
+    "cover": "istanbul cover _mocha",
+    "lint": "if-node-version '>=4' eslint ./lib ./examples ./test",
+    "fmt": "js-beautify -n --config crockford.jscsrc -r lib/* test/*.js examples/*",
+    "publish-npm": "npm publish --access public",
+    "publish-npm:beta": "npm publish --tag=next"
   },
   "engines": {
-    "node": ">= 4.5.0"
+    "node": ">= 6.0.0"
   },
   "dependencies": {},
   "devDependencies": {
-    "jshint": "2.9.x",
+    "minimist": "^1.2.0",
+    "coveralls": "^3.0.2",
+    "dependency-check": "^3.2.1",
+    "eslint": "^5.10.0",
+    "if-node-version": "^1.1.1",
+    "istanbul": "^0.4.5",
+    "js-beautify": "^1.6.12",
+    "jshint": "^2.9.6",
     "jshint-stylish": "2.2.x",
-    "mocha": "2.5.x",
-    "mocha-multi": "0.9.x",
+    "mocha": "^5.2.0",
     "mocha-lcov-reporter": "1.2.x",
-    "dependency-check": "2.5.x",
-    "istanbul": "0.4.x",
-    "coveralls": "^2.11.2",
+    "mocha-multi": "^1.0.1",
     "should": ">= 9.0.0"
   },
   "typings": "./index.d.ts"
