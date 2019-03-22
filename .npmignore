@@ -1,9 +1,8 @@
 npm-debug.log
 
 .DS_Store
-.idea
 .settings/
-
+.idea/
 *.log
 *.heapsnapshot
 *.sock
@@ -11,6 +10,7 @@ npm-debug.log
 .coverdata
 dump.rdb
 xunit.xml
+mocha-xunit.xml
 
 logs/*
 reports/*

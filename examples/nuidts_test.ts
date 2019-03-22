@@ -13,4 +13,3 @@ console.log(NUID.next());
 // change the prefix
 NUID.reset();
 console.log(NUID.next());
-
