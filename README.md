@@ -1,11 +1,11 @@
 # NODE NUID
 
 [![license](https://img.shields.io/github/license/nats-io/node-nuid.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Travis branch](https://img.shields.io/travis/nats-io/node-nuid/master.svg)]()
-[![Coveralls github branch](https://img.shields.io/coveralls/github/nats-io/node-nuid/master.svg)]()
-[![npm](https://img.shields.io/npm/v/nuid.svg)](https://www.npmjs.com/package/node-nuid)
-[![npm](https://img.shields.io/npm/dt/nuid.svg)](https://www.npmjs.com/package/node-nuid)
-[![npm](https://img.shields.io/npm/dm/nuid.svg)](https://www.npmjs.com/package/node-nuid)
+[![Travis branch](https://img.shields.io/travis/nats-io/node-nuid/master.svg)](https://travis-ci.org/nats-io/node-nuid)
+[![Coveralls github branch](https://img.shields.io/coveralls/github/nats-io/node-nuid/master.svg)](https://coveralls.io/github/nats-io/node-nuid)
+[![npm](https://img.shields.io/npm/v/nuid.svg)](https://www.npmjs.com/package/nuid)
+[![npm](https://img.shields.io/npm/dt/nuid.svg)](https://www.npmjs.com/package/nuid)
+[![npm](https://img.shields.io/npm/dm/nuid.svg)](https://www.npmjs.com/package/nuid)
 
 A highly performant unique identifier generator.
 
