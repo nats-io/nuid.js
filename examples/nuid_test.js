@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-/* global require: false */
-/*eslint no-console:0 */
-
 'use strict';
 
 const NUID = require('../');
