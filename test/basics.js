@@ -14,8 +14,6 @@
  */
 
 
-/* global require: false, describe: false, it: false */
-
 'use strict';
 
 const nuid = require('../lib/nuid.js');

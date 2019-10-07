@@ -4,7 +4,7 @@ sudo: false
 node_js:
   - "8"
   - "10"
-  - "11"
+  - "12"
 
 cache: npm
 
@@ -12,4 +12,4 @@ git:
   depth: false
 
 after_success:
-  - if [[ "$TRAVIS_NODE_VERSION" == 11 ]]; then npm run coveralls; fi
+  - if [[ "$TRAVIS_NODE_VERSION" == 12 ]]; then npm run coveralls; fi
