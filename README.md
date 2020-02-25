@@ -6,6 +6,7 @@
 [![npm](https://img.shields.io/npm/v/nuid.svg)](https://www.npmjs.com/package/nuid)
 [![npm](https://img.shields.io/npm/dt/nuid.svg)](https://www.npmjs.com/package/nuid)
 [![npm](https://img.shields.io/npm/dm/nuid.svg)](https://www.npmjs.com/package/nuid)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 A highly performant unique identifier generator.
 
