@@ -37,7 +37,7 @@ function rangeEquals (ba, bb, start, end) {
   return equal
 }
 
-describe('Basics', function () {
+describe('Basics', () => {
   it('global nuid should not be null', function () {
     var global = nuid.getGlobalNuid()
     should.exist(global)
@@ -48,7 +48,7 @@ describe('Basics', function () {
     should.exist(global.inc)
   })
 
-  it('duplicate nuids', function () {
+  it('duplicate nuids', () => {
     var m = {}
     // make this really big when testing, for normal runs small
     for (var i = 0; i < 10000; i++) {
@@ -58,7 +58,7 @@ describe('Basics', function () {
     }
   }).timeout(1000 * 60)
 
-  it('roll seq', function () {
+  it('roll seq', () => {
     const a = Buffer.alloc(10)
     nuid.getGlobalNuid().buf.copy(a, 0, 12)
     nuid.next()
@@ -67,7 +67,7 @@ describe('Basics', function () {
     rangeEquals(a, b).should.be.equal(false)
   })
 
-  it('roll pre', function () {
+  it('roll pre', () => {
     nuid.getGlobalNuid().seq = 3656158440062976 + 1
     const a = Buffer.alloc(12)
     nuid.getGlobalNuid().buf.copy(a, 0, 0, 12)
@@ -77,7 +77,7 @@ describe('Basics', function () {
     rangeEquals(a, b).should.be.equal(false)
   })
 
-  it('reset should reset', function () {
+  it('reset should reset', () => {
     const a = Buffer.alloc(22)
     nuid.getGlobalNuid().buf.copy(a)
     nuid.reset()
@@ -86,5 +86,9 @@ describe('Basics', function () {
 
     rangeEquals(a, b, 0, 12).should.be.equal(false)
     rangeEquals(a, b, 12).should.be.equal(false)
+  })
+
+  it('version should match', () => {
+    nuid.version.should.be.equal(require('../package.json').version)
   })
 })
