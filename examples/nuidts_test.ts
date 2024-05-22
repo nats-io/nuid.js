@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 // install typescript: `npm install -g typescript`
 // compile *.ts files as `tsc file.ts`
 import NUID = require("../");
