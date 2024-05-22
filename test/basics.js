@@ -17,7 +17,7 @@
 
 const { describe, it } = require("node:test");
 const assert = require("node:assert").strict;
-const NUID = require("../cjs/nuid.js");
+const NUID = require("../lib/nuid.js");
 
 function rangeEquals(ba, bb, start, end) {
   var equal = true;
