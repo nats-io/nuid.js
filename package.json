@@ -30,7 +30,7 @@
   "scripts": {
     "clean": "shx rm -f esm/index.mjs lib/nuid.d.ts lib/nuid.js lib/nuid.js.map",
     "build": "npm run clean && deno bundle src/nuid.ts esm/index.mjs && tsc",
-    "test": "npm run build && node --test",
+    "test": "npm run build && node --test test/basics.js && deno test",
     "prepack": "npm run build"
   },
   "engines": {
