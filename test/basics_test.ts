@@ -66,3 +66,10 @@ Deno.test("reset should reset", () => {
 Deno.test("constructor is exported", () => {
   assertEquals(typeof Nuid, "function");
 });
+
+Deno.test("versions", async () => {
+  const pkg = await import("../package.json", {with: {type: "json"}});
+  const jsr = await import("../jsr.json", {with: {type: "json"}});
+  assertEquals(pkg.default.version, jsr.default.version);
+
+})
