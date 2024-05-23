@@ -1,11 +1,18 @@
 {
   "name": "nuid",
-  "version": "2.0.0-2",
+  "version": "2.0.0",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
     "unique",
     "identifier",
     "generator"
+  ],
+  "files": [
+    "lib/",
+    "esm/",
+    "CODE-OF-CONDUCT.md",
+    "LICENSE",
+    "MAINTAINERS.md"
   ],
   "exports": {
     "types": "./lib/nuid.d.ts",
@@ -33,7 +40,8 @@
     "test": "npm run build && node --test test/basics.js && deno test",
     "doc": "rm -Rf ./docs && node_modules/.bin/typedoc --out ./docs/ && touch ./docs/.nojekyll",
     "prepack": "npm run build",
-    "lint": "deno lint --ignore=docs/,debug/,lib/"
+    "lint": "deno lint --ignore=docs/,debug/,lib/",
+    "fmt": "deno fmt src/ README.md MAINTAINERS.md CODE-OF-CONDUCT.md"
   },
   "engines": {
     "node": ">= 18.x"
