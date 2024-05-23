@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  test:
+  npm_publish:
     strategy:
       matrix:
         node-version: [22.x]
@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout nuid
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Use Node.js ${{ matrix.node-version }}
@@ -42,5 +42,8 @@ jobs:
       - run: npm publish --provenance --access public --tag=latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npx jsr publish
+
+
 
 

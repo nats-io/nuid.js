@@ -22,7 +22,7 @@
   "homepage": "https://nats.io/nuid.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:nats-io/nuid.js.git"
+    "url": "git+ssh://git@github.com/nats-io/nuid.js.git"
   },
   "bugs": {
     "url": "https://github.com/nats-io/nuid.js/issues"
