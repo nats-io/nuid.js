@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { next, nuid, reset } from "../esm/index.mjs";
+import { Nuid, nuid } from "../esm/index.mjs";
 import {
   assert,
   assertEquals,
@@ -58,12 +58,11 @@ Deno.test("roll pre", () => {
 
 Deno.test("reset should reset", () => {
   const a = nuid.buf.slice(0, 12);
-  reset();
+  nuid.reset();
   const b = nuid.buf.slice(0, 12);
   assertNotEquals(a, b);
 });
 
-Deno.test("reset and next are fn", () => {
-  assertEquals(typeof reset, "function");
-  assertEquals(typeof next, "function");
+Deno.test("constructor is exported", () => {
+  assertEquals(typeof Nuid, "function");
 });

@@ -24,8 +24,6 @@ const minInc = 33;
 const maxInc = 333;
 const totalLen = preLen + seqLen;
 
-export const version = "2.0.0-2";
-
 function _getRandomValues(a: Uint8Array) {
   for (let i = 0; i < a.length; i++) {
     a[i] = Math.floor(Math.random() * 255);
@@ -41,14 +39,24 @@ function fillRandom(a: Uint8Array) {
 }
 
 /**
- * Create and initialize a nuid.
- *
- * @api private
+ * Nuid is a class that generates unique identifiers.
  */
 export class Nuid {
+  /**
+   *   @hidden
+   */
   buf: Uint8Array;
+  /**
+   *   @hidden
+   */
   seq!: number;
+  /**
+   * @hidden
+   */
   inc!: number;
+  /**
+   * @hidden
+   */
   inited: boolean;
 
   constructor() {
@@ -58,7 +66,8 @@ export class Nuid {
 
   /**
    * Initializes a nuid with a crypto random prefix,
-   * and pseudo-random sequence and increment.
+   * and pseudo-random sequence and increment. This function
+   * is only called if any api on a nuid is called.
    *
    * @api private
    */
@@ -70,7 +79,7 @@ export class Nuid {
   }
 
   /**
-   * Initializes the pseudo randmon sequence number and the increment range.
+   * Initializes the pseudo random sequence number and the increment range.
    *
    * @api private
    */
@@ -80,7 +89,7 @@ export class Nuid {
   }
 
   /**
-   * Sets the prefix from crypto random bytes. Converts to base36.
+   * Sets the prefix from crypto random bytes. Converts them to base36.
    *
    * @api private
    */
@@ -108,8 +117,6 @@ export class Nuid {
 
   /**
    * Returns the next nuid.
-   *
-   * @api private
    */
   next(): string {
     if (!this.inited) {
@@ -125,17 +132,17 @@ export class Nuid {
     return String.fromCharCode.apply(String, this.buf);
   }
 
+  /**
+   * Resets the prefix and counter for the nuid. This is typically
+   * called automatically from within next() if the current sequence
+   * exceeds the resolution of the nuid.
+   */
   reset() {
     this.init();
   }
 }
 
+/**
+ * A nuid instance you can use by simply calling `next()` on it.
+ */
 export const nuid: Nuid = new Nuid();
-
-export function next(): string {
-  return nuid.next();
-}
-
-export function reset(): void {
-  return nuid.reset();
-}
