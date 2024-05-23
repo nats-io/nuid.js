@@ -1,11 +1,11 @@
-# NODE NUID
+# Nuid.js
 
 [![license](https://img.shields.io/github/license/nats-io/node-nuid.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![npm](https://img.shields.io/npm/v/nuid.svg)](https://www.npmjs.com/package/nuid)
 [![npm](https://img.shields.io/npm/dt/nuid.svg)](https://www.npmjs.com/package/nuid)
 [![npm](https://img.shields.io/npm/dm/nuid.svg)](https://www.npmjs.com/package/nuid)
 
-A highly performant unique identifier generator.
+A highly performant unique identifier generator for JavaScript.
 
 ## Installation
 
