@@ -27,12 +27,11 @@ Reference the library in your code. If using you can `import` or `require` the
 npm nuid library supports both Common JS and ESM:
 
 ```javascript
-const { nuid, Nuid, next, reset } = require("nuid");
+const { nuid, Nuid } = require("nuid");
 // or
-import { next, Nuid, nuid, reset } from "nuid";
+import { next, Nuid } from "nuid";
 
-// `nuid` is a global instance of nuid, you can look at it directly
-// or you can use `next()` and `reset()` to mutate it if you would like.
+// `nuid` is a global instance of nuid, you can use it directly
 // `Nuid` is the actual class implementing the nuids, so you can also
 // `new Nuid()`.
 ```
@@ -66,8 +65,11 @@ The 2.x version of the npm module support both CJS and ESM modules, an ESM only
 version of the module is available via
 [jsr @nats-io/nuid](https://jsr.io/@nats-io/nuid)
 
-If you are migrating from the 1.x.x series, note that `getGlobalNuid()` has been
-replaced with the constant `nuid` as shown in the examples above.
+If you are migrating from the 1.x.x series, note that `getGlobalNuid()`,
+`next()` and `reset()` and `version` property have been removed. Instead, access
+the exported constant `nuid` and call `next()` or `reset()` on it as shown in
+the examples above. For version information please refer to your installed
+module's version information.
 
 If you are migrating from the `js-nuid` module in npm, there should be no
 changes except to the location of the import in the npm bundle:

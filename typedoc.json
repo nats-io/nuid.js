@@ -1,0 +1,6 @@
+{
+  "readme": "none",
+  "theme": "default",
+  "out": "docs/",
+  "entryPoints": ["src/nuid.ts"]
+}
