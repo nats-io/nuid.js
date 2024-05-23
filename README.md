@@ -9,12 +9,6 @@ A highly performant unique identifier generator.
 
 ## Installation
 
-Use the `npm` command:
-
-    $ npm install nuid
-
-## Basic Usage
-
 Import the library for node/bun:
 
 ```bash
@@ -26,6 +20,8 @@ For web and deno you can also:
 ```bash
 npx jsr add @nats-io/nuid
 ```
+
+## Basic Usage
 
 Reference the library in your code. If using you can `import` or `require` the
 npm nuid library supports both Common JS and ESM:
@@ -66,7 +62,7 @@ Total length of a NUID string is 22 bytes of base 36 ascii text, so 36^22 or
 
 ## Migration
 
-The 2.x version of the npm module support both CJS and ESM modules, an EMS only
+The 2.x version of the npm module support both CJS and ESM modules, an ESM only
 version of the module is available via
 [jsr @nats-io/nuid](https://jsr.io/@nats-io/nuid)
 
