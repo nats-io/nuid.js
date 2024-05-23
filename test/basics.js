@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 The NATS Authors
+ * Copyright 2016-2024 The NATS Authors
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,82 +13,74 @@
  * limitations under the License.
  */
 
-'use strict'
+"use strict";
 
-const should = require('should')
-const describe = require('mocha').describe
-const it = require('mocha').it
-const nuid = require('../lib/nuid.js')
+const { describe, it } = require("node:test");
+const assert = require("node:assert").strict;
+const NUID = require("../lib/nuid.js");
 
-function rangeEquals (ba, bb, start, end) {
-  var equal = true
+function rangeEquals(ba, bb, start, end) {
+  var equal = true;
   if (start === undefined) {
-    start = 0
+    start = 0;
   }
   if (end === undefined) {
-    end = ba.length
+    end = ba.length;
   }
   for (let i = start; i < end; i++) {
     if (ba[i] !== bb[i]) {
-      equal = false
-      break
+      equal = false;
+      break;
     }
   }
-  return equal
+  return equal;
 }
 
-describe('Basics', () => {
-  it('global nuid should not be null', function () {
-    var global = nuid.getGlobalNuid()
-    should.exist(global)
-    should.exist(global.buf)
-    global.buf.length.should.be.greaterThan(0)
-    should.exist(global.seq)
-    global.seq.should.be.greaterThan(0)
-    should.exist(global.inc)
-  })
+describe("Basics", (t) => {
+  it("global nuid should not be null", function () {
+    const g = NUID.nuid;
+    assert.ok(g);
+    g.next();
+    assert.ok(g.buf);
+    assert.ok(g.buf.length > 0);
+    assert.ok(g.seq);
+    assert.ok(g.seq > 0);
+    assert.ok(g.inc);
+  });
 
-  it('duplicate nuids', () => {
-    var m = {}
+  it("duplicate nuids", () => {
+    const m = {};
     // make this really big when testing, for normal runs small
-    for (var i = 0; i < 10000; i++) {
-      var k = nuid.next()
-      should.not.exist(m[k])
-      m[k] = true
+    for (let i = 0; i < 10000; i++) {
+      const k = NUID.next();
+      assert.equal(m[k], undefined);
+      m[k] = true;
     }
-  }).timeout(1000 * 60)
+  });
 
-  it('roll seq', () => {
-    const a = Buffer.alloc(10)
-    nuid.getGlobalNuid().buf.copy(a, 0, 12)
-    nuid.next()
-    const b = Buffer.alloc(10)
-    nuid.getGlobalNuid().buf.copy(b, 0, 12)
-    rangeEquals(a, b).should.be.equal(false)
-  })
+  it("roll seq", () => {
+    const a = NUID.nuid.buf.slice(12);
+    NUID.next();
+    const b = NUID.nuid.buf.slice(12);
+    assert.equal(rangeEquals(a, b), false);
+  });
 
-  it('roll pre', () => {
-    nuid.getGlobalNuid().seq = 3656158440062976 + 1
-    const a = Buffer.alloc(12)
-    nuid.getGlobalNuid().buf.copy(a, 0, 0, 12)
-    nuid.next()
-    const b = Buffer.alloc(12)
-    nuid.getGlobalNuid().buf.copy(b, 0, 0, 12)
-    rangeEquals(a, b).should.be.equal(false)
-  })
+  it("roll pre", () => {
+    NUID.nuid.seq = 3656158440062976 + 1;
+    const a = NUID.nuid.buf.slice(0, 12);
+    NUID.next();
+    const b = NUID.nuid.buf.slice(0, 12);
+    assert.equal(rangeEquals(a, b), false);
+  });
 
-  it('reset should reset', () => {
-    const a = Buffer.alloc(22)
-    nuid.getGlobalNuid().buf.copy(a)
-    nuid.reset()
-    const b = Buffer.alloc(12)
-    nuid.getGlobalNuid().buf.copy(b)
+  it("reset should reset", () => {
+    const a = NUID.nuid.buf.slice(0, 12);
+    NUID.reset();
+    const b = NUID.nuid.buf.slice(0, 12);
+    assert.equal(rangeEquals(a, b), false);
+  });
 
-    rangeEquals(a, b, 0, 12).should.be.equal(false)
-    rangeEquals(a, b, 12).should.be.equal(false)
-  })
-
-  it('version should match', () => {
-    nuid.version.should.be.equal(require('../package.json').version)
-  })
-})
+  it("version should match", () => {
+    assert.equal(NUID.version, require("../package.json").version);
+  });
+});
