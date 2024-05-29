@@ -1,6 +1,6 @@
 {
   "name": "nuid",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "NUID - A highly performant unique identifier generator.",
   "keywords": [
     "unique",
@@ -14,8 +14,8 @@
     "LICENSE",
     "MAINTAINERS.md"
   ],
+  "types": "./lib/nuid.d.ts",
   "exports": {
-    "types": "./lib/nuid.d.ts",
     "require": "./lib/nuid.js",
     "import": "./esm/index.mjs"
   },
