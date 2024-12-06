@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { Nuid, nuid } from "../esm/index.mjs";
+import { Nuid, nuid } from "../src/nuid.ts";
 import {
   assert,
   assertEquals,
@@ -68,8 +68,10 @@ Deno.test("constructor is exported", () => {
 });
 
 Deno.test("versions", async () => {
-  const pkg = await import("../package.json", {with: {type: "json"}});
-  const jsr = await import("../jsr.json", {with: {type: "json"}});
+  const pkg = await import("../package.json", { with: { type: "json" } });
+  const jsr = await import("../deno.json", { with: { type: "json" } });
   assertEquals(pkg.default.version, jsr.default.version);
+});
 
-})
+Deno.test("rand", () => {
+});

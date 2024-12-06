@@ -1,33 +1,44 @@
 # Nuid.js
 
-[![license](https://img.shields.io/github/license/nats-io/node-nuid.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![npm](https://img.shields.io/npm/v/nuid.svg)](https://www.npmjs.com/package/nuid)
-[![npm](https://img.shields.io/npm/dt/nuid.svg)](https://www.npmjs.com/package/nuid)
-[![npm](https://img.shields.io/npm/dm/nuid.svg)](https://www.npmjs.com/package/nuid)
+[![License](https://img.shields.io/badge/Licence-Apache%202.0-blue.svg)](./LICENSE)
+![node](https://github.com/nats-io/nuid.js/actions/workflows/node.yml/badge.svg)
+![deno](https://github.com/nats-io/nuid.js/actions/workflows/deno.yml/badge.svg)
+[![coverage](https://coveralls.io/repos/github/nats-io/nuid.js/badge.svg?branch=main)](https://coveralls.io/github/nats-io/nuid.js?branch=main)
+[![JSDoc](https://img.shields.io/badge/JSDoc-reference-blue)](https://nats-io.github.io/nuid.js/index.html)
+
+[![JSR](https://jsr.io/badges/@nats-io/nuid)](https://jsr.io/@nats-io/nuid.js)
+[![JSR](https://jsr.io/badges/@nats-io/nuid/score)](https://jsr.io/@nats-io/nuid.js)
+
+[![npm](https://img.shields.io/npm/v/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid.js)
+[![npm](https://img.shields.io/npm/dt/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid.js)
+[![npm](https://img.shields.io/npm/dm/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid.js)
 
 A highly performant unique identifier generator for JavaScript.
 
 ## Installation
 
-Import the library for node/bun:
+For web and deno you can use the JSR bundle:
+
+```bash
+npx jsr add @nats-io/nuid
+// or
+deno add @nats-io/nuid
+```
+
+```typescript
+import { next, Nuid } from "jsr:@nats-io/nuid";
+```
+
+import { next
+
+In node/bun:
 
 ```bash
 npm install nuid
 ```
 
-For web and deno you can also:
-
-```bash
-npx jsr add @nats-io/nuid
-```
-
-## Basic Usage
-
-Reference the library in your code. If using you can `import` or `require` the
-npm nuid library supports both Common JS and ESM:
-
 ```javascript
-const { nuid, Nuid } = require("nuid");
+const { next, Nuid } = require("nuid");
 // or
 import { next, Nuid } from "nuid";
 
@@ -35,6 +46,8 @@ import { next, Nuid } from "nuid";
 // `Nuid` is the actual class implementing the nuids, so you can also
 // `new Nuid()`.
 ```
+
+## Basic Usage
 
 ```javascript
 // To generate a bunch of nuids:

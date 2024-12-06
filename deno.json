@@ -1,0 +1,28 @@
+{
+  "name": "@nats-io/nuid",
+  "version": "2.0.1",
+  "exports": {
+    ".": "./src/nuid.ts"
+  },
+  "include": [
+    "src/nuid.ts",
+    "LICENSE",
+    "README.md",
+    "MAINTAINERS.md",
+    "CODE-OF-CONDUCT.md"
+  ],
+
+  "tasks": {
+    "clean": "rm -rf ./lib ./coverage",
+    "test-cover": "deno task clean && deno task test && deno task cover && deno task view-cover",
+    "test": "deno test -A --parallel --reload --coverage=coverage test/",
+    "cover": "deno coverage ./coverage --lcov > ./coverage/out.lcov",
+    "view-cover": "genhtml -o ./coverage/html ./coverage/out.lcov && open ./coverage/html/index.html"
+  },
+  "fmt": {
+    "exclude": ["lib/", "docs/"]
+  },
+  "lint": {
+    "exclude": ["lib/", "docs/"]
+  }
+}

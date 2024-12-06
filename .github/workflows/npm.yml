@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-        deno-version: [1.43.5]
+        deno-version: [2.1.x]
 
     runs-on: ubuntu-latest
     permissions:
@@ -43,7 +43,3 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npx jsr publish
-
-
-
-
