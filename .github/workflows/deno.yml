@@ -1,0 +1,51 @@
+name: test esm
+
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - "*"
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        deno-version: [2.1.x]
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout nuid
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Use Deno Version ${{ matrix.deno-version }}
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ matrix.deno-version }}
+      - name: lint
+        run: |
+          deno fmt --check src/ test/
+          deno lint
+
+      - name: test
+        env:
+          TMPDIR: ${{ runner.temp }}
+          CI: true
+        run: |
+          deno task clean
+          deno task test
+          deno task cover
+
+      - name: Upload coverage
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./coverage/out.lcov

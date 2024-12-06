@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "outDir": "lib/",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "nodenext",
+    "outDir": "lib",
+    "moduleResolution": "nodenext",
     "sourceMap": true,
     "declaration": true,
     "allowJs": true,

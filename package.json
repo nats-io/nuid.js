@@ -1,24 +1,16 @@
 {
-  "name": "nuid",
-  "version": "2.0.1-1",
+  "name": "@nats-io/nuid",
+  "version": "2.0.1",
   "description": "NUID - A highly performant unique identifier generator.",
-  "keywords": [
-    "unique",
-    "identifier",
-    "generator"
-  ],
+  "main": "./lib/nuid.js",
+  "types": "./lib/nuid.d.ts",
   "files": [
     "lib/",
-    "esm/",
-    "CODE-OF-CONDUCT.md",
     "LICENSE",
-    "MAINTAINERS.md"
+    "README.md",
+    "MAINTAINERS.md",
+    "CODE-OF-CONDUCT.md"
   ],
-  "types": "./lib/nuid.d.ts",
-  "exports": {
-    "require": "./lib/nuid.js",
-    "import": "./esm/index.mjs"
-  },
   "homepage": "https://nats.io/nuid.js",
   "repository": {
     "type": "git",
@@ -28,27 +20,28 @@
     "url": "https://github.com/nats-io/nuid.js/issues"
   },
   "license": "Apache-2.0",
-  "private": false,
   "author": {
     "name": "The NATS Authors"
   },
   "contributors": [],
-  "main": "./index.js",
   "scripts": {
-    "clean": "shx rm -f esm/index.mjs lib/nuid.d.ts lib/nuid.js lib/nuid.js.map",
-    "build": "npm run clean && deno bundle src/nuid.ts esm/index.mjs && tsc",
+    "clean": "shx rm -Rf ./lib ./coverage",
+    "build": "npm run clean && tsc",
     "test": "npm run build && node --test test/basics.js && deno test",
     "doc": "rm -Rf ./docs && node_modules/.bin/typedoc --out ./docs/ && touch ./docs/.nojekyll",
-    "prepack": "npm run build",
-    "lint": "deno lint --ignore=docs/,debug/,lib/",
-    "fmt": "deno fmt src/ README.md MAINTAINERS.md CODE-OF-CONDUCT.md"
+    "prepack": "npm run build"
   },
   "engines": {
     "node": ">= 18.x"
   },
+  "keywords": [
+    "unique",
+    "identifier",
+    "generator"
+  ],
   "devDependencies": {
     "shx": "^0.3.4",
-    "typescript": "^5.4.5",
-    "typedoc": "^0.25.13"
+    "typescript": "^5.7.2",
+    "typedoc": "^0.27.3"
   }
 }
