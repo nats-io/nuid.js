@@ -4,7 +4,7 @@
 ![node](https://github.com/nats-io/nuid.js/actions/workflows/node.yml/badge.svg)
 ![deno](https://github.com/nats-io/nuid.js/actions/workflows/deno.yml/badge.svg)
 [![coverage](https://coveralls.io/repos/github/nats-io/nuid.js/badge.svg?branch=main)](https://coveralls.io/github/nats-io/nuid.js?branch=main)
-[![JSDoc](https://img.shields.io/badge/JSDoc-reference-blue)](https://nats-io.github.io/nuid.js/index.html)
+[![JSDoc](https://img.shields.io/badge/JSDoc-reference-blue)](https://nats-io.github.io/nuid.js)
 
 [![JSR](https://jsr.io/badges/@nats-io/nuid)](https://jsr.io/@nats-io/nuid.js)
 [![JSR](https://jsr.io/badges/@nats-io/nuid/score)](https://jsr.io/@nats-io/nuid.js)
