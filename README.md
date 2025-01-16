@@ -29,8 +29,6 @@ deno add @nats-io/nuid
 import { next, Nuid } from "jsr:@nats-io/nuid";
 ```
 
-import { next
-
 In node/bun:
 
 ```bash
