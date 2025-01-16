@@ -1,6 +1,6 @@
 {
   "name": "@nats-io/nuid",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "NUID - A highly performant unique identifier generator.",
   "main": "./lib/nuid.js",
   "types": "./lib/nuid.d.ts",
@@ -41,7 +41,7 @@
   ],
   "devDependencies": {
     "shx": "^0.3.4",
-    "typescript": "^5.7.3",
+    "typescript": "^5.6.3",
     "typedoc": "^0.27.6"
   }
 }
