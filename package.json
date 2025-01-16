@@ -1,6 +1,6 @@
 {
   "name": "@nats-io/nuid",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "NUID - A highly performant unique identifier generator.",
   "main": "./lib/nuid.js",
   "types": "./lib/nuid.d.ts",
