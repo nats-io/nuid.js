@@ -69,7 +69,7 @@ export class Nuid {
    * and pseudo-random sequence and increment. This function
    * is only called if any api on a nuid is called.
    *
-   * @api private
+   * @ignore
    */
   private init() {
     this.inited = true;
@@ -80,8 +80,7 @@ export class Nuid {
 
   /**
    * Initializes the pseudo random sequence number and the increment range.
-   *
-   * @api private
+   * @ignore
    */
   private initSeqAndInc() {
     this.seq = Math.floor(Math.random() * maxSeq);
@@ -91,7 +90,7 @@ export class Nuid {
   /**
    * Sets the prefix from crypto random bytes. Converts them to base36.
    *
-   * @api private
+   * @ignore
    */
   private setPre() {
     const cbuf = new Uint8Array(preLen);
@@ -104,8 +103,7 @@ export class Nuid {
 
   /**
    * Fills the sequence part of the nuid as base36 from this.seq.
-   *
-   * @api private
+   * @ignore
    */
   private fillSeq() {
     let n = this.seq;
