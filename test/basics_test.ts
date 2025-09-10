@@ -19,7 +19,7 @@ import {
   assertEquals,
   assertExists,
   assertNotEquals,
-} from "jsr:@std/assert";
+} from "@std/assert";
 
 Deno.test("global nuid should not be null", () => {
   assertExists(nuid);
