@@ -40,8 +40,8 @@
     "generator"
   ],
   "devDependencies": {
-    "shx": "^0.3.4",
-    "typescript": "^5.6.3",
-    "typedoc": "^0.27.6"
+    "shx": "^0.4.0",
+    "typedoc": "^0.28.12",
+    "typescript": "^5.8.3"
   }
 }
