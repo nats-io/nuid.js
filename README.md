@@ -6,12 +6,12 @@
 [![coverage](https://coveralls.io/repos/github/nats-io/nuid.js/badge.svg?branch=main)](https://coveralls.io/github/nats-io/nuid.js?branch=main)
 [![JSDoc](https://img.shields.io/badge/JSDoc-reference-blue)](https://nats-io.github.io/nuid.js)
 
-[![JSR](https://jsr.io/badges/@nats-io/nuid)](https://jsr.io/@nats-io/nuid.js)
-[![JSR](https://jsr.io/badges/@nats-io/nuid/score)](https://jsr.io/@nats-io/nuid.js)
+[![JSR](https://jsr.io/badges/@nats-io/nuid)](https://jsr.io/@nats-io/nuid)
+[![JSR](https://jsr.io/badges/@nats-io/nuid/score)](https://jsr.io/@nats-io/nuid)
 
-[![npm](https://img.shields.io/npm/v/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid.js)
-[![npm](https://img.shields.io/npm/dt/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid.js)
-[![npm](https://img.shields.io/npm/dm/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid.js)
+[![npm](https://img.shields.io/npm/v/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid)
+[![npm](https://img.shields.io/npm/dt/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid)
+[![npm](https://img.shields.io/npm/dm/%40nats-io%2Fnuid)](https://www.npmjs.com/package/@nats-io/nuid)
 
 A highly performant unique identifier generator for JavaScript.
 
@@ -26,23 +26,21 @@ deno add @nats-io/nuid
 ```
 
 ```typescript
-import { next, Nuid } from "jsr:@nats-io/nuid";
+import { Nuid, nuid } from "jsr:@nats-io/nuid";
 ```
 
 In node/bun:
 
 ```bash
-npm install nuid
+npm install @nats-io/nuid
 ```
 
 ```javascript
-const { next, Nuid } = require("nuid");
+// `nuid` is a global instance of nuid, you can use it directly.
+// `Nuid` is the class implementing the nuids, so you can also `new Nuid()`.
+const { nuid, Nuid } = require("@nats-io/nuid");
 // or
-import { next, Nuid } from "nuid";
-
-// `nuid` is a global instance of nuid, you can use it directly
-// `Nuid` is the actual class implementing the nuids, so you can also
-// `new Nuid()`.
+import { Nuid, nuid } from "@nats-io/nuid";
 ```
 
 ## Basic Usage
@@ -72,22 +70,13 @@ Total length of a NUID string is 22 bytes of base 36 ascii text, so 36^22 or
 
 ## Migration
 
-The 2.x version of the npm module support both CJS and ESM modules, an ESM only
-version of the module is available via
-[jsr @nats-io/nuid](https://jsr.io/@nats-io/nuid)
+From 2.x to 3.x: nothing to do. The public API is unchanged. Output is still 22
+chars; now uses the full base-62 alphabet (`0-9A-Za-z`) matching the Go
+`nats-io/nuid` reference.
 
-If you are migrating from the 1.x.x series, note that `getGlobalNuid()`,
-`next()` and `reset()` and `version` property have been removed. Instead, access
-the exported constant `nuid` and call `next()` or `reset()` on it as shown in
-the examples above. For version information please refer to your installed
-module's version information.
-
-If you are migrating from the `js-nuid` module in npm, there should be no
-changes except to the location of the import in the npm bundle:
-
-```typescript
-import { nuid } from "./node_modules/esm/index.js";
-```
+The 3.x version of the npm module supports both CJS and ESM. An ESM-only version
+of the module is available via
+[jsr @nats-io/nuid](https://jsr.io/@nats-io/nuid).
 
 ## Supported Node Versions
 
