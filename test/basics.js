@@ -17,7 +17,7 @@
 
 const { describe, it } = require("node:test");
 const assert = require("node:assert").strict;
-const { nuid, Nuid } = require("../lib/nuid.js");
+const { nuid, Nuid } = require("../lib/mod.js");
 
 function rangeEquals(ba, bb, start, end) {
   let equal = true;
@@ -45,9 +45,9 @@ describe("Basics", () => {
     assert.ok(nuid);
     nuid.next();
     assert.ok(nuid.buf);
-    assert.ok(nuid.buf.length > 0);
-    assert.ok(nuid.seq);
-    assert.ok(nuid.seq > 0);
+    assert.equal(nuid.buf.length, 22);
+    assert.equal(typeof nuid.seqHi, "number");
+    assert.equal(typeof nuid.seqLo, "number");
     assert.ok(nuid.inc);
   });
 
@@ -69,10 +69,17 @@ describe("Basics", () => {
   });
 
   it("roll pre", () => {
-    nuid.seq = 3656158440062976 + 1;
-    const a = nuid.buf.slice(0, 12);
-    nuid.next();
-    const b = nuid.buf.slice(0, 12);
+    // derive boundary from 62^10 via BigInt to catch a bad MAX_HI/MAX_LO
+    const MAX_SEQ = 62n ** 10n;
+    const TWO32 = 1n << 32n;
+    const n = new Nuid();
+    n.next();
+    n.seqHi = Number(MAX_SEQ / TWO32);
+    n.seqLo = Number(MAX_SEQ % TWO32);
+    n.inc = 1;
+    const a = n.buf.slice(0, 12);
+    n.next();
+    const b = n.buf.slice(0, 12);
     assert.equal(rangeEquals(a, b), false);
   });
 

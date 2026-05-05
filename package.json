@@ -1,9 +1,9 @@
 {
   "name": "@nats-io/nuid",
-  "version": "2.0.3",
+  "version": "3.0.0-0",
   "description": "NUID - A highly performant unique identifier generator.",
-  "main": "./lib/nuid.js",
-  "types": "./lib/nuid.d.ts",
+  "main": "./lib/mod.js",
+  "types": "./lib/mod.d.ts",
   "files": [
     "lib/",
     "LICENSE",
@@ -25,14 +25,14 @@
   },
   "contributors": [],
   "scripts": {
-    "clean": "shx rm -Rf ./lib ./coverage",
+    "clean": "rm -rf ./lib ./coverage ./docs",
     "build": "npm run clean && tsc",
     "test": "npm run build && node --test test/basics.js && deno test",
-    "doc": "rm -Rf ./docs && node_modules/.bin/typedoc --out ./docs/ && touch ./docs/.nojekyll",
-    "prepack": "npm run build"
+    "doc": "node_modules/.bin/typedoc --out ./docs/ && touch ./docs/.nojekyll",
+    "prepack": "npm run clean && npm run build"
   },
   "engines": {
-    "node": ">= 18.x"
+    "node": ">= 22.x"
   },
   "keywords": [
     "unique",
@@ -40,8 +40,7 @@
     "generator"
   ],
   "devDependencies": {
-    "shx": "^0.4.0",
-    "typedoc": "^0.28.12",
-    "typescript": "^5.8.3"
+    "typedoc": "^0.28.19",
+    "typescript": "^5.9.2"
   }
 }
