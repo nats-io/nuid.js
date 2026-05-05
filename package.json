@@ -26,7 +26,7 @@
   "contributors": [],
   "scripts": {
     "clean": "rm -rf ./lib ./coverage ./docs",
-    "build": "tsc",
+    "build": "npm run clean && tsc",
     "test": "npm run build && node --test test/basics.js && deno test",
     "doc": "node_modules/.bin/typedoc --out ./docs/ && touch ./docs/.nojekyll",
     "prepack": "npm run build"
