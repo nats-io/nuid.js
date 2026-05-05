@@ -45,9 +45,9 @@ describe("Basics", () => {
     assert.ok(nuid);
     nuid.next();
     assert.ok(nuid.buf);
-    assert.ok(nuid.buf.length > 0);
-    assert.ok(nuid.seq);
-    assert.ok(nuid.seq > 0);
+    assert.equal(nuid.buf.length, 22);
+    assert.equal(typeof nuid.seqHi, "number");
+    assert.equal(typeof nuid.seqLo, "number");
     assert.ok(nuid.inc);
   });
 
@@ -69,10 +69,14 @@ describe("Basics", () => {
   });
 
   it("roll pre", () => {
-    nuid.seq = 3656158440062976 + 1;
-    const a = nuid.buf.slice(0, 12);
-    nuid.next();
-    const b = nuid.buf.slice(0, 12);
+    const n = new Nuid();
+    n.next();
+    n.seqHi = 195428170;
+    n.seqLo = 1864212224;
+    n.inc = 1;
+    const a = n.buf.slice(0, 12);
+    n.next();
+    const b = n.buf.slice(0, 12);
     assert.equal(rangeEquals(a, b), false);
   });
 

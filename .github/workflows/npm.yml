@@ -8,8 +8,8 @@ jobs:
   npm_publish:
     strategy:
       matrix:
-        node-version: [24.x]
-        deno-version: [2.5.x]
+        node-version: [25.x]
+        deno-version: [2.7.x]
 
     runs-on: ubuntu-latest
     permissions:
@@ -18,26 +18,31 @@ jobs:
 
     steps:
       - name: Checkout nuid
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: "https://registry.npmjs.org"
+          cache: "npm"
       - name: Use Deno Version ${{ matrix.deno-version }}
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno-version }}
       - run: npm install -g npm
       - run: npm ci
-      - run: npm run prepack
       - name: Set tag
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test tag
         run: |
-          deno test
-      - run: npm run clean
-      - run: npm publish --provenance --access public --tag=latest
-      - run: npx jsr publish
+          VER="${GITHUB_REF#refs/*/}"
+          if [[ "$VER" == *-* ]]; then
+            echo "NPM_TAG=next" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          fi
+      - run: deno test
+      - run: npm publish --provenance --access public --tag=${NPM_TAG}
+      - name: Publish JSR (skip on pre-release)
+        if: env.NPM_TAG == 'latest'
+        run: npx jsr publish

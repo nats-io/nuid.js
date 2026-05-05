@@ -4,8 +4,7 @@ on:
   push:
     tags:
       - "*"
-    branches:
-      - "*"
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -13,22 +12,23 @@ jobs:
   test:
     strategy:
       matrix:
-        node-version: [24.x]
-        deno-version: [2.5.x]
+        node-version: [25.x]
+        deno-version: [2.7.x]
 
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout nuid
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "npm"
       - name: Use Deno Version ${{ matrix.deno-version }}
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno-version }}
       - name: lint

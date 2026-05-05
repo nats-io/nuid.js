@@ -1,8 +1,8 @@
 {
   "name": "@nats-io/nuid",
-  "version": "2.0.3",
+  "version": "3.0.0-0",
   "imports": {
-    "@std/assert": "jsr:@std/assert@^1.0.0"
+    "@std/assert": "jsr:@std/assert@^1.0.19"
   },
   "exports": {
     ".": "./src/nuid.ts"
@@ -17,6 +17,7 @@
 
   "tasks": {
     "clean": "rm -rf ./lib ./coverage",
+    "doc-clean": "rm -rf ./docs",
     "test-cover": "deno task clean && deno task test && deno task cover && deno task view-cover",
     "test": "deno test -A --parallel --reload --coverage=coverage test/",
     "cover": "deno coverage ./coverage --lcov > ./coverage/out.lcov",
