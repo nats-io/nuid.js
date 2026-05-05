@@ -84,9 +84,11 @@ export class NuidImpl {
     this.inited = true;
     this.setPre();
     this.initSeqAndInc();
-    // No fillSeq here — `next()` always runs fillSeq after incrementing seq,
-    // so the encoded suffix is written exactly once per id rather than twice
-    // on the first call.
+    // fillSeq here keeps `buf` self-consistent after init()/reset(), so any
+    // observer of `buf` sees a prefix paired with its current seq encoding
+    // rather than a stale residue. Cold path — runs only at init / reset /
+    // prefix overflow, not in the per-call hot path.
+    this.fillSeq();
   }
 
   /**

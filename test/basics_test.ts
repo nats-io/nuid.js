@@ -195,6 +195,22 @@ Deno.test("init produces integer seqHi/seqLo across the full random range", () =
   }
 });
 
+Deno.test("public surface (mod.ts) exports work end-to-end", async () => {
+  // Exercise the actual published entry point so an export mismatch in
+  // mod.ts can't slip past CI (other tests reach into ./nuid.ts directly).
+  const mod = await import("../src/mod.ts");
+  assertEquals(typeof mod.Nuid, "function");
+  assertEquals(typeof mod.nuid, "object");
+  assertEquals(typeof mod.nuid.next, "function");
+  assertEquals(typeof mod.nuid.reset, "function");
+
+  const id = mod.nuid.next();
+  assertEquals(id.length, 22);
+
+  const n = new mod.Nuid();
+  assertEquals(n.next().length, 22);
+});
+
 Deno.test("versions", async () => {
   const pkg = await import("../package.json", { with: { type: "json" } });
   const jsr = await import("../deno.json", { with: { type: "json" } });
