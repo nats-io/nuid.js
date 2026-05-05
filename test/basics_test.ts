@@ -13,7 +13,14 @@
  * limitations under the License.
  */
 
-import { Nuid, nuid, randomToken } from "../src/nuid.ts";
+import { nuid, NuidImpl } from "../src/nuid.ts";
+
+// 62^10 split into two 32-bit halves — used to drive overflow boundaries
+// independently of src/nuid.ts so a bad MAX_HI/MAX_LO would be caught.
+const MAX_SEQ = 62n ** 10n;
+const TWO32 = 1n << 32n;
+const MAX_HI_HALF = Number(MAX_SEQ / TWO32);
+const MAX_LO_HALF = Number(MAX_SEQ % TWO32);
 import {
   assert,
   assertEquals,
@@ -58,7 +65,7 @@ Deno.test("nuid is 22 base62 chars", () => {
 });
 
 Deno.test("duplicate nuids", () => {
-  const n = new Nuid();
+  const n = new NuidImpl();
   const m = new Set<string>();
   for (let i = 0; i < 100000; i++) {
     const k = n.next();
@@ -75,17 +82,10 @@ Deno.test("roll seq", () => {
 });
 
 Deno.test("roll pre on overflow", () => {
-  // Independently derive the overflow boundary from 62^10 via BigInt,
-  // so a bad MAX_HI/MAX_LO in the source would be caught here.
-  const MAX_SEQ = 62n ** 10n;
-  const TWO32 = 1n << 32n;
-  const maxHi = Number(MAX_SEQ / TWO32);
-  const maxLo = Number(MAX_SEQ % TWO32);
-
-  const n = new Nuid();
+  const n = new NuidImpl();
   n.next();
-  n.seqHi = maxHi;
-  n.seqLo = maxLo;
+  n.seqHi = MAX_HI_HALF;
+  n.seqLo = MAX_LO_HALF;
   n.inc = 1;
   const preBefore = n.buf.slice(0, 12);
   n.next();
@@ -94,19 +94,13 @@ Deno.test("roll pre on overflow", () => {
 });
 
 Deno.test("seq at exactly 62^10 must roll (off-by-one guard)", () => {
-  // Last valid seq is 62^10 - 1. seq = 62^10 cannot be encoded in 10 base62
-  // digits (it's "1" followed by ten "0"s) — fillSeq would drop the leading
-  // 1 and emit "0000000000", aliasing seq=0. Must roll *before* fillSeq sees
-  // seq == 62^10.
-  const MAX_SEQ = 62n ** 10n;
-  const TWO32 = 1n << 32n;
-  const maxHi = Number(MAX_SEQ / TWO32);
-  const maxLo = Number(MAX_SEQ % TWO32);
-
-  const n = new Nuid();
+  // 62^10 cannot be encoded in 10 base62 digits ("1" + ten "0"s) — fillSeq
+  // would drop the leading 1 and emit "0000000000", aliasing seq=0. Roll
+  // must fire *before* fillSeq sees seq == 62^10.
+  const n = new NuidImpl();
   n.next();
-  n.seqHi = maxHi;
-  n.seqLo = maxLo;
+  n.seqHi = MAX_HI_HALF;
+  n.seqLo = MAX_LO_HALF;
   n.inc = 0;
   const preBefore = n.buf.slice(0, 12);
   n.next();
@@ -114,18 +108,12 @@ Deno.test("seq at exactly 62^10 must roll (off-by-one guard)", () => {
 });
 
 Deno.test("max representable seq encodes to all 'z'", () => {
-  // 62^10 - 1 is the largest seq value that fits in 10 base62 digits and
-  // must encode as "zzzzzzzzzz". Catches any overshoot in MAX_HI/MAX_LO
-  // (which would let invalid seq values reach fillSeq and alias).
-  const MAX_SEQ_MINUS_1 = 62n ** 10n - 1n;
-  const TWO32 = 1n << 32n;
-  const hi = Number(MAX_SEQ_MINUS_1 / TWO32);
-  const lo = Number(MAX_SEQ_MINUS_1 % TWO32);
-
-  const n = new Nuid();
+  // 62^10 - 1 = "zzzzzzzzzz" (largest 10-digit base62 value).
+  const last = 62n ** 10n - 1n;
+  const n = new NuidImpl();
   n.next();
-  n.seqHi = hi;
-  n.seqLo = lo;
+  n.seqHi = Number(last / TWO32);
+  n.seqLo = Number(last % TWO32);
   n.inc = 0;
   n.next();
   const suffix = new TextDecoder().decode(n.buf.slice(12));
@@ -140,11 +128,11 @@ Deno.test("reset should reset", () => {
 });
 
 Deno.test("constructor is exported", () => {
-  assertEquals(typeof Nuid, "function");
+  assertEquals(typeof NuidImpl, "function");
 });
 
 Deno.test("sequential ordering within prefix", () => {
-  const n = new Nuid();
+  const n = new NuidImpl();
   const a = n.next();
   const b = n.next();
   // same prefix
@@ -190,7 +178,7 @@ Deno.test("init produces integer seqHi/seqLo across the full random range", () =
     ];
     for (const v of probes) {
       Math.random = () => v;
-      const n = new Nuid();
+      const n = new NuidImpl();
       const id = n.next();
       assert(
         Number.isInteger(n.seqHi),
@@ -205,24 +193,6 @@ Deno.test("init produces integer seqHi/seqLo across the full random range", () =
   } finally {
     Math.random = orig;
   }
-});
-
-Deno.test("randomToken: 8 chars in base62", () => {
-  const re = /^[0-9A-Za-z]{8}$/;
-  for (let i = 0; i < 1000; i++) {
-    const t = randomToken();
-    assert(re.test(t), `bad token: ${JSON.stringify(t)}`);
-  }
-});
-
-Deno.test("randomToken: distribution looks random", () => {
-  // 10k tokens; with a 62^8 space, expect ~zero duplicates and broad coverage.
-  const seen = new Set<string>();
-  for (let i = 0; i < 10000; i++) seen.add(randomToken());
-  assert(
-    seen.size > 9990,
-    `expected near-unique tokens, got ${seen.size}/10000`,
-  );
 });
 
 Deno.test("versions", async () => {

@@ -5,9 +5,10 @@
     "@std/assert": "jsr:@std/assert@^1.0.19"
   },
   "exports": {
-    ".": "./src/nuid.ts"
+    ".": "./src/mod.ts"
   },
   "include": [
+    "src/mod.ts",
     "src/nuid.ts",
     "LICENSE",
     "README.md",

@@ -12,14 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { nuid, NuidImpl } from "../src/nuid.ts";
 
-const n = new NuidImpl();
+import { nuid as _nuid, NuidImpl } from "./nuid.ts";
 
-Deno.bench({ name: "Nuid.next() (base62 split-int)" }, () => {
-  n.next();
-});
+/**
+ * Public Nuid interface — generates 22-char base62 unique identifiers.
+ * Output format matches Go `nats-io/nuid`.
+ */
+export type Nuid = {
+  /** Returns the next 22-char base62 nuid. */
+  next(): string;
+  /** Re-randomizes prefix and sequence counter. */
+  reset(): void;
+};
 
-Deno.bench({ name: "global nuid.next()" }, () => {
-  nuid.next();
-});
+/** Constructor for an isolated `Nuid` instance. */
+export const Nuid: new () => Nuid = NuidImpl;
+
+/** Shared global `Nuid` — call `next()` directly. */
+export const nuid: Nuid = _nuid;

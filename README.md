@@ -63,8 +63,10 @@ A NUID is 22 base-62 ASCII characters from the alphabet `0-9A-Za-z`:
 - **12-char prefix** — drawn from `crypto.getRandomValues` (entropy-friendly:
   one draw per instance, not per id). Per-prefix space is 62^12 ≈ 3.2×10^21.
 - **10-char sequence** — starts at a pseudo-random offset and advances by a
-  pseudo-random increment (33..332) on each `next()`. Per-prefix sequence space
-  is 62^10 ≈ 8.4×10^17 ids before the prefix is re-randomized.
+  pseudo-random increment in `[33, 332]` on each `next()`. The sequence
+  numerically caps at 62^10; combined with the per-instance increment, that
+  yields roughly `62^10 / inc` ids per prefix (~10^15) before the prefix is
+  re-randomized.
 
 Total identifier space is 62^22 ≈ 2.7×10^39.
 
