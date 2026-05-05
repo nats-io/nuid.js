@@ -41,7 +41,7 @@ jobs:
           else
             echo "NPM_TAG=latest" >> $GITHUB_ENV
           fi
-      - run: deno test
+      - run: npm test
       - run: npm publish --provenance --access public --tag=${NPM_TAG}
       - name: Publish JSR (skip on pre-release)
         if: env.NPM_TAG == 'latest'

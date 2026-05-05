@@ -17,27 +17,25 @@ A highly performant unique identifier generator for JavaScript.
 
 ## Installation
 
-For web and deno you can use the JSR bundle:
+Deno (via JSR):
 
 ```bash
-npx jsr add @nats-io/nuid
-// or
-deno add @nats-io/nuid
+deno add jsr:@nats-io/nuid
 ```
 
 ```typescript
 import { Nuid, nuid } from "jsr:@nats-io/nuid";
 ```
 
-In node/bun:
+Node / Bun (via npm):
 
 ```bash
 npm install @nats-io/nuid
 ```
 
 ```javascript
-// `nuid` is a global instance of nuid, you can use it directly.
-// `Nuid` is the class implementing the nuids, so you can also `new Nuid()`.
+// `nuid` is a shared global instance — call `next()` on it directly.
+// `Nuid` is the class — use `new Nuid()` for an isolated instance.
 const { nuid, Nuid } = require("@nats-io/nuid");
 // or
 import { Nuid, nuid } from "@nats-io/nuid";
@@ -53,20 +51,25 @@ id = nuid.next();
 
 // To generate a new prefix:
 nuid.reset();
-// note that prefixes are automatically rolled whenever all
-// the nuids for the specific prefix have been used.
+// the prefix is also re-randomized automatically when the sequence
+// counter overflows (i.e. reaches 62^10).
 id = nuid.next();
 ```
 
-## Performance
+## Format
 
-NUID needs to be very fast to generate and be truly unique, all while being
-entropy pool friendly. NUID uses 12 bytes of crypto generated data (entropy
-draining), and 10 bytes of pseudo-random sequential data that increments with a
-pseudo-random increment.
+A NUID is 22 base-62 ASCII characters from the alphabet `0-9A-Za-z`:
 
-Total length of a NUID string is 22 bytes of base 36 ascii text, so 36^22 or
-17324272922341479351919144385642496 possibilities.
+- **12-char prefix** — drawn from `crypto.getRandomValues` (entropy-friendly:
+  one draw per instance, not per id). Per-prefix space is 62^12 ≈ 3.2×10^21.
+- **10-char sequence** — starts at a pseudo-random offset and advances by a
+  pseudo-random increment (33..332) on each `next()`. Per-prefix sequence space
+  is 62^10 ≈ 8.4×10^17 ids before the prefix is re-randomized.
+
+Total identifier space is 62^22 ≈ 2.7×10^39.
+
+Output format matches the Go `nats-io/nuid` reference — same alphabet, same
+length — so JS-generated nuids look the same as Go-generated ones.
 
 ## Migration
 
@@ -80,9 +83,11 @@ of the module is available via
 
 ## Supported Node Versions
 
-Support policy for Nodejs versions follows
-[Nodejs release support](https://github.com/nodejs/Release). We will support and
-build nuid on even Nodejs versions that are current or in maintenance.
+Minimum supported Node.js version is set in `package.json` (`engines.node`),
+currently **>= 22**. The version policy tracks
+[Node.js release support](https://github.com/nodejs/Release): supported floor
+moves up as older LTS lines reach end-of-life. CI runs against the latest
+current release.
 
 ## License
 

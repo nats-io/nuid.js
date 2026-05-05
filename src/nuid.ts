@@ -28,11 +28,13 @@ const totalLen = preLen + seqLen;
 const DIGIT_CODES = new Uint8Array(base);
 for (let i = 0; i < base; i++) DIGIT_CODES[i] = digits.charCodeAt(i);
 
-// 62^10 = 839,299,365,868,340,224 — exceeds Number.MAX_SAFE_INTEGER (2^53-1).
-// seq is stored as two 32-bit halves: seq = seqHi * 2^32 + seqLo.
-const TWO32 = 0x1_0000_0000; // 2^32
-const MAX_HI = 195428170; // floor(62^10 / 2^32)
-const MAX_LO = 1864212224; // 62^10 - MAX_HI * 2^32
+// base^seqLen exceeds Number.MAX_SAFE_INTEGER, so seq is stored as two 32-bit
+// halves: seq = seqHi * 2^32 + seqLo. Boundaries derived via BigInt to avoid
+// double-precision rounding traps in the literal/intermediate math.
+const TWO32 = 0x1_0000_0000;
+const _MAX_SEQ = BigInt(base) ** BigInt(seqLen);
+const MAX_HI = Number(_MAX_SEQ / (1n << 32n));
+const MAX_LO = Number(_MAX_SEQ % (1n << 32n));
 
 function _getRandomValues(a: Uint8Array) {
   for (let i = 0; i < a.length; i++) {
@@ -167,7 +169,7 @@ export class Nuid {
     }
     if (
       this.seqHi > MAX_HI ||
-      (this.seqHi === MAX_HI && this.seqLo > MAX_LO)
+      (this.seqHi === MAX_HI && this.seqLo >= MAX_LO)
     ) {
       this.setPre();
       this.initSeqAndInc();

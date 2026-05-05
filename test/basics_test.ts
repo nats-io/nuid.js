@@ -75,16 +75,61 @@ Deno.test("roll seq", () => {
 });
 
 Deno.test("roll pre on overflow", () => {
+  // Independently derive the overflow boundary from 62^10 via BigInt,
+  // so a bad MAX_HI/MAX_LO in the source would be caught here.
+  const MAX_SEQ = 62n ** 10n;
+  const TWO32 = 1n << 32n;
+  const maxHi = Number(MAX_SEQ / TWO32);
+  const maxLo = Number(MAX_SEQ % TWO32);
+
   const n = new Nuid();
-  n.next(); // force init
-  // jam seq to one increment short of overflow
-  n.seqHi = 195428170; // MAX_HI
-  n.seqLo = 1864212224; // MAX_LO
+  n.next();
+  n.seqHi = maxHi;
+  n.seqLo = maxLo;
   n.inc = 1;
   const preBefore = n.buf.slice(0, 12);
-  n.next(); // seq goes to MAX+1 -> triggers prefix roll
+  n.next();
   const preAfter = n.buf.slice(0, 12);
   assertNotEquals(preBefore, preAfter);
+});
+
+Deno.test("seq at exactly 62^10 must roll (off-by-one guard)", () => {
+  // Last valid seq is 62^10 - 1. seq = 62^10 cannot be encoded in 10 base62
+  // digits (it's "1" followed by ten "0"s) — fillSeq would drop the leading
+  // 1 and emit "0000000000", aliasing seq=0. Must roll *before* fillSeq sees
+  // seq == 62^10.
+  const MAX_SEQ = 62n ** 10n;
+  const TWO32 = 1n << 32n;
+  const maxHi = Number(MAX_SEQ / TWO32);
+  const maxLo = Number(MAX_SEQ % TWO32);
+
+  const n = new Nuid();
+  n.next();
+  n.seqHi = maxHi;
+  n.seqLo = maxLo;
+  n.inc = 0;
+  const preBefore = n.buf.slice(0, 12);
+  n.next();
+  assertNotEquals(n.buf.slice(0, 12), preBefore);
+});
+
+Deno.test("max representable seq encodes to all 'z'", () => {
+  // 62^10 - 1 is the largest seq value that fits in 10 base62 digits and
+  // must encode as "zzzzzzzzzz". Catches any overshoot in MAX_HI/MAX_LO
+  // (which would let invalid seq values reach fillSeq and alias).
+  const MAX_SEQ_MINUS_1 = 62n ** 10n - 1n;
+  const TWO32 = 1n << 32n;
+  const hi = Number(MAX_SEQ_MINUS_1 / TWO32);
+  const lo = Number(MAX_SEQ_MINUS_1 % TWO32);
+
+  const n = new Nuid();
+  n.next();
+  n.seqHi = hi;
+  n.seqLo = lo;
+  n.inc = 0;
+  n.next();
+  const suffix = new TextDecoder().decode(n.buf.slice(12));
+  assertEquals(suffix, "zzzzzzzzzz");
 });
 
 Deno.test("reset should reset", () => {

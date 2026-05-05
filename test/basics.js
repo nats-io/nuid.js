@@ -69,10 +69,13 @@ describe("Basics", () => {
   });
 
   it("roll pre", () => {
+    // derive boundary from 62^10 via BigInt to catch a bad MAX_HI/MAX_LO
+    const MAX_SEQ = 62n ** 10n;
+    const TWO32 = 1n << 32n;
     const n = new Nuid();
     n.next();
-    n.seqHi = 195428170;
-    n.seqLo = 1864212224;
+    n.seqHi = Number(MAX_SEQ / TWO32);
+    n.seqLo = Number(MAX_SEQ % TWO32);
     n.inc = 1;
     const a = n.buf.slice(0, 12);
     n.next();
