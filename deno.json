@@ -17,7 +17,6 @@
 
   "tasks": {
     "clean": "rm -rf ./lib ./coverage",
-    "doc-clean": "rm -rf ./docs",
     "test-cover": "deno task clean && deno task test && deno task cover && deno task view-cover",
     "test": "deno test -A --parallel --reload --coverage=coverage test/",
     "cover": "deno coverage ./coverage --lcov > ./coverage/out.lcov",

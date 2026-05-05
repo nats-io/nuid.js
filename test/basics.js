@@ -17,7 +17,7 @@
 
 const { describe, it } = require("node:test");
 const assert = require("node:assert").strict;
-const { nuid, Nuid } = require("../lib/nuid.js");
+const { nuid, Nuid, randomToken } = require("../lib/nuid.js");
 
 function rangeEquals(ba, bb, start, end) {
   let equal = true;
@@ -88,5 +88,14 @@ describe("Basics", () => {
     nuid.reset();
     const b = nuid.buf.slice(0, 12);
     assert.equal(rangeEquals(a, b), false);
+  });
+
+  it("randomToken is exported and produces 8 base62 chars", () => {
+    assert.equal(typeof randomToken, "function");
+    const re = /^[0-9A-Za-z]{8}$/;
+    for (let i = 0; i < 100; i++) {
+      const t = randomToken();
+      assert.ok(re.test(t), `bad token: ${t}`);
+    }
   });
 });
