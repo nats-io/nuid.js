@@ -43,6 +43,4 @@ jobs:
           fi
       - run: npm test
       - run: npm publish --provenance --access public --tag=${NPM_TAG}
-      - name: Publish JSR (skip on pre-release)
-        if: env.NPM_TAG == 'latest'
-        run: npx jsr publish
+      - run: npx jsr publish
