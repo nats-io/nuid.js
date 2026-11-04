@@ -1,9 +1,22 @@
 {
   "name": "@nats-io/nuid",
-  "version": "3.0.0",
+  "version": "3.1.0-0",
   "description": "NUID - A highly performant unique identifier generator.",
   "main": "./lib/mod.js",
   "types": "./lib/mod.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm/mod.d.ts",
+        "default": "./lib/esm/mod.js"
+      },
+      "require": {
+        "types": "./lib/mod.d.ts",
+        "default": "./lib/mod.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "lib/",
     "LICENSE",
@@ -11,6 +24,7 @@
     "MAINTAINERS.md",
     "CODE-OF-CONDUCT.md"
   ],
+  "sideEffects": false,
   "homepage": "https://nats.io/nuid.js",
   "repository": {
     "type": "git",
@@ -26,13 +40,14 @@
   "contributors": [],
   "scripts": {
     "clean": "rm -rf ./lib ./coverage ./docs",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && npm run build-esm",
     "test": "npm run build && node --test test/basics.js && deno test",
     "doc": "node_modules/.bin/typedoc --out ./docs/ && touch ./docs/.nojekyll",
-    "prepack": "npm run clean && npm run build"
+    "prepack": "npm run clean && npm run build",
+    "build-esm": "tsc -p tsconfig.esm.json && node -e \"require('fs').writeFileSync('lib/esm/package.json', JSON.stringify({type: 'module', sideEffects: false}) + '\\n')\""
   },
   "engines": {
-    "node": ">= 22.x"
+    "node": ">= 20"
   },
   "keywords": [
     "unique",
