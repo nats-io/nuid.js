@@ -42,7 +42,15 @@ jobs:
             echo "NPM_TAG=latest" >> $GITHUB_ENV
           fi
       - run: npm test
-      - run: npm publish --provenance --access public --tag=${NPM_TAG}
-      - name: Publish JSR (skip on pre-release)
-        if: env.NPM_TAG == 'latest'
+      - name: Publish npm
+        run: |
+          # skip a version that is already published, so the job can be rerun
+          NAME=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          if [ -n "$(npm view "$NAME@$VER" version 2>/dev/null)" ]; then
+            echo "$NAME@$VER is already on npm, skipping"
+          else
+            npm publish --provenance --access public --tag=${NPM_TAG}
+          fi
+      - name: Publish JSR
         run: npx jsr publish --allow-dirty
