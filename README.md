@@ -76,10 +76,10 @@ length — so JS-generated nuids look the same as Go-generated ones.
 ## Migration
 
 From 2.x to 3.x: the public API is unchanged, and output is still 22 chars.
-However, generated ids now use the full base-62 alphabet (`0-9A-Za-z`)
-matching the Go `nats-io/nuid` reference, so any caller that validates,
-stores, or compares against the old uppercase-only `[0-9A-Z]{22}` format
-should update that logic before upgrading.
+However, generated ids now use the full base-62 alphabet (`0-9A-Za-z`) matching
+the Go `nats-io/nuid` reference, so any caller that validates, stores, or
+compares against the old uppercase-only `[0-9A-Z]{22}` format should update that
+logic before upgrading.
 
 The 3.x version of the npm module supports both CJS and ESM. An ESM-only version
 of the module is available via

@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "nodenext",
     "outDir": "lib",
+    "rootDir": "./src",
     "moduleResolution": "nodenext",
     "sourceMap": true,
     "declaration": true,

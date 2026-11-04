@@ -8,8 +8,8 @@ jobs:
   npm_publish:
     strategy:
       matrix:
-        node-version: [25.x]
-        deno-version: [2.7.x]
+        node-version: [26.x]
+        deno-version: [2.9.x]
 
     runs-on: ubuntu-latest
     permissions:

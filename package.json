@@ -55,7 +55,7 @@
     "generator"
   ],
   "devDependencies": {
-    "typedoc": "0.28.19",
-    "typescript": "5.9.3"
+    "typedoc": "0.28.20",
+    "typescript": "6.0.3"
   }
 }

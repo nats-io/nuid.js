@@ -42,7 +42,7 @@ function _getRandomValues(a: Uint8Array) {
   }
 }
 
-function fillRandom(a: Uint8Array) {
+function fillRandom(a: Uint8Array<ArrayBuffer>) {
   if (globalThis?.crypto?.getRandomValues) {
     globalThis.crypto.getRandomValues(a);
   } else {
@@ -60,7 +60,7 @@ function fillRandom(a: Uint8Array) {
  */
 export class NuidImpl {
   buf: Uint8Array;
-  private cbuf: Uint8Array;
+  private cbuf: Uint8Array<ArrayBuffer>;
   seqHi!: number;
   seqLo!: number;
   inc!: number;
