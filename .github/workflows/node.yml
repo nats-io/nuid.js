@@ -11,9 +11,10 @@ on:
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [25.x]
-        deno-version: [2.7.x]
+        node-version: [22.x, 24.x, 26.x]
+        deno-version: [2.9.x]
 
     runs-on: ubuntu-latest
 

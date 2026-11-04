@@ -7,6 +7,7 @@
   "exports": {
     ".": "./src/mod.ts"
   },
+  "nodeModulesDir": "auto",
   "include": [
     "src/mod.ts",
     "src/nuid.ts",
